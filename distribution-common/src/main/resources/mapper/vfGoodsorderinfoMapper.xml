@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.distribution.common.mapper.vfGoodsorderinfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.distribution.common.Pojo.vfGoodsorderinfo">
+            <id property="goodsinfoid" column="GoodsInfoID" jdbcType="VARCHAR"/>
+            <result property="goodsorderid" column="GoodsOrderID" jdbcType="VARCHAR"/>
+            <result property="goodsid" column="GoodsID" jdbcType="VARCHAR"/>
+            <result property="goodsprice" column="GoodsPrice" jdbcType="DECIMAL"/>
+            <result property="goodscount" column="GoodsCount" jdbcType="INTEGER"/>
+            <result property="status" column="Status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        GoodsInfoID,GoodsOrderID,GoodsID,
+        GoodsPrice,GoodsCount,Status
+    </sql>
+
+    <sql id="vfSupplierQueryGoodsOrderInfo_Param">
+            vf_goodsorderinfo.GoodsID,
+            vf_goodsorderinfo.GoodsPrice,
+            vf_goodsorderinfo.GoodsCount,
+            vf_goodsorderinfo.GoodsPackage,
+    </sql>
+    <select id="getgoodsorderinfoByOrderID"
+            resultType="com.distribution.common.Pojo.Vo.supplier.vfSupplierQueryGoodsOrderInfo">
+        select
+            <include refid="vfSupplierQueryGoodsOrderInfo_Param"></include>
+            vf_goods.GoodsName,vf_goodsinfo.GoodsShowImg
+        from vf_goodsorderinfo,vf_goods,vf_goodsinfo
+        where vf_goodsorderinfo.GoodsID = vf_goods.GoodsID and vf_goodsinfo.GoodsInfo=vf_goods.GoodsinfoID
+        and GoodsOrderID = '${goodsOrderId}'
+    </select>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.distribution.common.mapper.vfGoodsinfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.distribution.common.Pojo.vfGoodsinfo">
+            <id property="goodsinfo" column="GoodsInfo" jdbcType="VARCHAR"/>
+            <result property="goodsshowimg" column="GoodsShowImg" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <resultMap id="goodsinfoAndDetailsListMap" type="com.distribution.common.Pojo.Vo.vfGoodsinfoVo">
+        <id property="goodsinfo" column="GoodsInfo" jdbcType="VARCHAR"/>
+        <result property="goodsshowimg" column="GoodsShowImg" jdbcType="VARCHAR"/>
+        <collection property='vfGoodsDetailsImgs' select="com.distribution.common.mapper.vfGoodsdetailsimgMapper.getGoodsdetailsimginfo"
+                    column="{goodsinfoid=GoodsInfo}"
+        >
+
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        GoodsInfo,GoodsShowImg
+    </sql>
+<!--    根据goodsinfoid获取商品详情-->
+    <select id="getGoodsOneVo" resultMap="goodsinfoAndDetailsListMap">
+        select * from vf_goodsinfo where GoodsInfo = '${goodsinfoid}'
+    </select>
+</mapper>

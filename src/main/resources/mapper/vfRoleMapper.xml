@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.distribution.common.mapper.vfRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.distribution.common.Pojo.vfRole">
+            <id property="roleid" column="RoleID" jdbcType="VARCHAR"/>
+            <result property="rolename" column="RoleName" jdbcType="VARCHAR"/>
+            <result property="rolestatus" column="RoleStatus" jdbcType="INTEGER"/>
+            <result property="createtime" column="CreateTime" jdbcType="TIMESTAMP"/>
+            <result property="updatetime" column="UpdateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        RoleID,RoleName,RoleStatus,
+        CreateTime,UpdateTime
+    </sql>
+</mapper>

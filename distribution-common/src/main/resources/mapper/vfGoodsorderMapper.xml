@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.distribution.common.mapper.vfGoodsorderMapper">
+
+    <resultMap id="BaseResultMap" type="com.distribution.common.Pojo.vfGoodsorder">
+            <id property="orderid" column="OrderID" jdbcType="VARCHAR"/>
+            <result property="supplierid" column="SupplierID" jdbcType="VARCHAR"/>
+            <result property="dealerid" column="DealerID" jdbcType="VARCHAR"/>
+            <result property="trackingnumber" column="TrackingNumber" jdbcType="VARCHAR"/>
+            <result property="status" column="Status" jdbcType="INTEGER"/>
+            <result property="createtime" column="CreateTime" jdbcType="TIMESTAMP"/>
+            <result property="updatetime" column="UpdateTime" jdbcType="TIMESTAMP"/>
+
+    </resultMap>
+
+    <resultMap id="SupplierQueryGoodsOrderMap" type="com.distribution.common.Pojo.Vo.supplier.vfSupplierQueryGoodsOrderVo">
+<!--            <id property="orderid" column="OrderID" jdbcType="VARCHAR"/>-->
+<!--            <result property="dealername" column="DealerName" jdbcType="VARCHAR" />-->
+<!--            <result property="createtime" column="CreateTime" jdbcType="TIMESTAMP"/>-->
+<!--            <result property="updatetime" column="UpdateTime" jdbcType="TIMESTAMP"/>-->
+<!--            <result property="trackingnumber" column="TrackingNumber" jdbcType="VARCHAR"/>-->
+            <collection property="orderinfo" select="com.distribution.common.mapper.vfGoodsorderinfoMapper.getgoodsorderinfoByOrderID"
+                        column="{goodsOrderId=orderid}">
+
+            </collection>
+
+    </resultMap>
+
+    <resultMap id="DealerQueryGoodsOrderMap" type="com.distribution.common.Pojo.Vo.supplier.vfDealerQueryGoodsOrderVo">
+        <!--            <id property="orderid" column="OrderID" jdbcType="VARCHAR"/>-->
+        <!--            <result property="dealername" column="DealerName" jdbcType="VARCHAR" />-->
+        <!--            <result property="createtime" column="CreateTime" jdbcType="TIMESTAMP"/>-->
+        <!--            <result property="updatetime" column="UpdateTime" jdbcType="TIMESTAMP"/>-->
+        <!--            <result property="trackingnumber" column="TrackingNumber" jdbcType="VARCHAR"/>-->
+        <collection property="orderinfo" select="com.distribution.common.mapper.vfGoodsorderinfoMapper.getgoodsorderinfoByOrderID"
+                    column="{goodsOrderId=orderid}">
+
+        </collection>
+
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        OrderID,SupplierID,DealerID,
+        TrackingNumber,Status,GoodsOrderInfoID,
+        CreateTime,UpdateTime
+    </sql>
+    <sql id="getGoodsOrderBuSupplier_Column">
+            vf_goodsorder.OrderID,
+            vf_goodsorder.TrackingNumber,
+            vf_goodsorder.ReceiveAddress,
+            vf_goodsorder.Status,
+            vf_goodsorder.CreateTime,
+            vf_goodsorder.UpdateTime,
+    </sql>
+    <select id="getGoodsOrderBuSupplier"
+            resultMap="SupplierQueryGoodsOrderMap">
+        select
+            <include refid="getGoodsOrderBuSupplier_Column"></include>
+            Supplier.CompanyName as SupplierName,Dealer.UserName as DealerName
+        from vf_goodsorder , vf_user as Supplier , vf_user as Dealer
+        WHERE vf_goodsorder.SupplierID = Supplier.UserId and vf_goodsorder.DealerID = Dealer.UserId
+
+            and vf_goodsorder.SupplierID='${vfUser.userid}'
+
+            <if test="reqSupplierQueryGoodsOrderDto.status != null">
+                and vf_goodsorder.`Status`=${reqSupplierQueryGoodsOrderDto.status}
+            </if>
+              <if test="reqSupplierQueryGoodsOrderDto.updatestarttime != null
+              and reqSupplierQueryGoodsOrderDto.updateendtime != null">
+                  and vf_goodsorder.UpdateTime BETWEEN 'reqSupplierQueryGoodsOrderDto.updatestarttime'
+                      AND '${reqSupplierQueryGoodsOrderDto.updateendtime}'
+              </if>
+
+            <if test="reqSupplierQueryGoodsOrderDto.createstarttime != null
+              and reqSupplierQueryGoodsOrderDto.createendtime != null">
+                and vf_goodsorder.CreateTime BETWEEN 'reqSupplierQueryGoodsOrderDto.createstarttime'
+                AND '${rreqSupplierQueryGoodsOrderDto.createendtime}'
+            </if>
+    </select>
+    <select id="getGoodsOrderBuDealer"
+            resultMap="DealerQueryGoodsOrderMap">
+        select
+        <include refid="getGoodsOrderBuSupplier_Column"></include>
+        Supplier.CompanyName as SupplierName
+        from vf_goodsorder , vf_user as Supplier , vf_user as Dealer
+        WHERE vf_goodsorder.SupplierID = Supplier.UserId and vf_goodsorder.DealerID = Dealer.UserId
+
+        and vf_goodsorder.DealerID='${vfUser.userid}'
+
+        <if test="reqDealerQueryGoodsorderDto.status != null">
+            and vf_goodsorder.`Status`=${reqDealerQueryGoodsorderDto.status}
+        </if>
+
+    </select>
+</mapper>

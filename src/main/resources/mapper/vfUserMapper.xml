@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.distribution.common.mapper.vfUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.distribution.common.Pojo.vfUser">
+            <id property="userid" column="UserId" jdbcType="VARCHAR"/>
+            <result property="username" column="UserName" jdbcType="VARCHAR"/>
+            <result property="companyname" column="CompanyName" jdbcType="VARCHAR"/>
+            <result property="userpwd" column="UserPwd" jdbcType="VARCHAR"/>
+            <result property="salt" column="Salt" jdbcType="VARCHAR"/>
+            <result property="usersex" column="UserSex" jdbcType="VARCHAR"/>
+            <result property="useremail" column="UserEmail" jdbcType="VARCHAR"/>
+            <result property="userphone" column="UserPhone" jdbcType="VARCHAR"/>
+            <result property="roleid" column="RoleID" jdbcType="VARCHAR"/>
+            <result property="userstatus" column="UserStatus" jdbcType="INTEGER"/>
+            <result property="money" column="Money" jdbcType="DECIMAL"/>
+            <result property="lastlogintime" column="LastLoginTime" jdbcType="TIMESTAMP"/>
+            <result property="createtime" column="CreateTime" jdbcType="TIMESTAMP"/>
+            <result property="updatetime" column="UpdateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        UserId,UserName,CompanyName,
+        UserPwd,Salt,UserSex,
+        UserEmail,UserPhone,RoleID,
+        UserStatus,Money,LastLoginTime,
+        CreateTime,UpdateTime
+    </sql>
+</mapper>

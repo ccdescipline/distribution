@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.distribution.common.mapper.vfGoodsdetailsimgMapper">
+
+    <resultMap id="BaseResultMap" type="com.distribution.common.Pojo.vfGoodsdetailsimg">
+            <id property="goodsdetailsimgid" column="GoodsDetailsImgID" jdbcType="VARCHAR"/>
+            <result property="goodsdetailsimg" column="GoodsDetailsImg" jdbcType="VARCHAR"/>
+            <result property="index" column="Index" jdbcType="INTEGER"/>
+            <result property="goodsinfoid" column="GoodsInfoID" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        GoodsDetailsImgID,GoodsDetailsImg,Index,
+        GoodsInfoID
+    </sql>
+    <select id="getGoodsdetailsimginfo" resultType="com.distribution.common.Pojo.Vo.vfGoodsDetailsImgVo">
+        <if test="goodsinfoid != '' and goodsinfoid!=null">
+            select * from vf_goodsdetailsimg where GoodsInfoID = '${goodsinfoid}'
+
+        </if>
+
+    </select>
+
+
+</mapper>

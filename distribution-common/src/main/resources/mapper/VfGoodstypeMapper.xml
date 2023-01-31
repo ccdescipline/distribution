@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.distribution.common.mapper.vfGoodstypeMapper">
+
+    <resultMap id="BaseResultMap" type="com.distribution.common.Pojo.vfGoodstype">
+            <id property="goodstypeid" column="GoodsTypeID" jdbcType="VARCHAR"/>
+            <result property="goodstypename" column="GoodsTypeName" jdbcType="VARCHAR"/>
+            <result property="goodsparentid" column="GoodsParentID" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        GoodsTypeID,GoodsTypeName,GoodsParentID
+    </sql>
+</mapper>

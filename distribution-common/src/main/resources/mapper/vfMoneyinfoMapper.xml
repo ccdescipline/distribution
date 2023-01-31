@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.distribution.common.mapper.vfMoneyinfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.distribution.common.Pojo.vfMoneyinfo">
+            <id property="moneyinfoid" column="MoneyInfoID" jdbcType="VARCHAR"/>
+            <result property="sourceuserid" column="SourceUserID" jdbcType="VARCHAR"/>
+            <result property="destuserid" column="DestUserID" jdbcType="VARCHAR"/>
+            <result property="transfermoney" column="TransferMoney" jdbcType="DECIMAL"/>
+            <result property="createtime" column="CreateTime" jdbcType="TIMESTAMP"/>
+            <result property="souceuserbanlance" column="SouceUserBanlance" jdbcType="DECIMAL"/>
+            <result property="destuserbanlance" column="DestUserBanlance" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        MoneyInfoID,SourceUserID,DestUserID,
+        TransferMoney,CreateTime,SouceUserBanlance,
+        DestUserBanlance
+    </sql>
+</mapper>

@@ -1,0 +1,40 @@
+server:
+  port: 8999
+
+spring:
+  mvc:
+    format:
+      date: yyyy-MM-dd HH:mm:ss
+  datasource:
+    username: root
+    password:
+    url: jdbc:p6spy:mysql://localhost/distributionsystem
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+
+  redis:
+    port: 6379
+    host: 127.0.0.1
+
+mybatis-plus:
+
+  #扫描实体类的位置,在此处指明扫描实体类的包，在 mapper.xml 中就可以不写实体类的全路径名
+  type-aliases-package: com.distribution.common.Pojo
+  # 指定 mapper.xml 的位置
+#  mapper-locations: classpath*:/mapper/*.xml
+  configuration:
+    #    关闭驼峰命名
+    map-underscore-to-camel-case: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+  #MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名 实体扫描，多个package用逗号或者分号分隔
+  # typeAliasesPackage: com.testdemo.Pojo
+# 对象存储配置
+minio:
+  endpoint: http://192.168.2.172:9000/
+  bucketName: springboot
+  accessKey: minioadmin #用户名
+  secretKey: minioadmin #密码
+
+MoneyConfig:
+  MoneyCenterUserID: 3aea3cb4-7ae5-11ed-9ad1-50ebf64121c3

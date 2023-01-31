@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.distribution.common.mapper.vfGoodsMapper">
+
+    <resultMap id="BaseResultMap" type="com.distribution.common.Pojo.vfGoods">
+            <id property="goodsid" column="GoodsID" jdbcType="VARCHAR"/>
+            <result property="goodsname" column="GoodsName" jdbcType="VARCHAR"/>
+            <result property="goodstype" column="GoodsType" jdbcType="VARCHAR"/>
+            <result property="goodsprice" column="GoodsPrice" jdbcType="DECIMAL"/>
+            <result property="goodspackage" column="GoodsPackage" jdbcType="VARCHAR"/>
+            <result property="status" column="Status" jdbcType="INTEGER"/>
+            <result property="createtime" column="CreateTime" jdbcType="TIMESTAMP"/>
+            <result property="updatetime" column="UpdateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="getgoodsinfoByDealer" type="com.distribution.common.Pojo.Vo.VFGoodsDealerVo">
+        <id property="goodsid" column="GoodsID" jdbcType="VARCHAR"/>
+        <result property="goodsname" column="GoodsName" jdbcType="VARCHAR"/>
+        <result property="goodstype" column="GoodsType" jdbcType="VARCHAR"/>
+        <result property="goodsprice" column="GoodsPrice" jdbcType="DECIMAL"/>
+        <result property="goodspackage" column="GoodsPackage" jdbcType="VARCHAR"/>
+        <result property="status" column="Status" jdbcType="INTEGER"/>
+        <result property="createtime" column="CreateTime" jdbcType="TIMESTAMP"/>
+        <result property="updatetime" column="UpdateTime" jdbcType="TIMESTAMP"/>
+
+        <result property="goodstypename" column="goodstypename" jdbcType="VARCHAR"/>
+        <result property="companyname" column="companyname" jdbcType="VARCHAR"/>
+        <result property="count" column="count" jdbcType="INTEGER"/>
+        <collection property="goodsinfo" select="com.distribution.common.mapper.vfGoodsinfoMapper.getGoodsOneVo"
+                    column="{goodsinfoid=GoodsinfoID}">
+        </collection>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        GoodsID,GoodsName,GoodsType,
+        GoodsPrice,GoodsPackage,Status,
+        CreateTime,UpdateTime
+    </sql>
+    <select id="getgoodsinfo"
+            resultType="com.distribution.common.Pojo.Vo.vfGoodVo"
+            parameterType="com.distribution.common.Dto.vfGoods.reqQueryGoods">
+        select * from vf_goods,vf_goodstype,vf_user
+                 WHERE vf_goods.GoodsType=vf_goodstype.GoodsTypeID and vf_goods.CreateUserID = vf_user.UserId
+                 <if test="reqQueryGoods.goodsname != null ">
+                    and vf_goods.GoodsName like '%${reqQueryGoods.goodsname}%'
+                 </if>
+                <if test=" (reqQueryGoods.startprice != null and  reqQueryGoods.endprice != null) and (reqQueryGoods.startprice != reqQueryGoods.endprice)">
+                    and vf_goods.GoodsPrice between ${reqQueryGoods.startprice} and ${reqQueryGoods.endprice}
+                </if>
+                <if test="reqQueryGoods.status != null ">
+                    and vf_goods.Status= ${reqQueryGoods.status}
+                </if>
+                <if test="reqQueryGoods.goodstype != null and reqQueryGoods.goodstype!='' ">
+                    and vf_goods.GoodsType = '${reqQueryGoods.goodstype}'
+                </if>
+                <if test="reqQueryGoods.starttime != null and reqQueryGoods.endtime != null">
+                    and vf_goods.UpdateTime between '${reqQueryGoods.starttime}' and '${reqQueryGoods.endtime}'
+                </if>
+                <if test="reqQueryGoods.userid != null and reqQueryGoods.userid !=''">
+                    and vf_user.UserId = '${reqQueryGoods.userid}'
+                </if>
+
+
+
+    </select>
+
+    <select id="getgoodsinfoByDealer" resultMap="getgoodsinfoByDealer">
+        select * from vf_goods,vf_goodstype,vf_user,vf_goodsinfo
+                                    WHERE
+                                        vf_goods.GoodsType=vf_goodstype.GoodsTypeID and
+                                        vf_goods.CreateUserID = vf_user.UserId AND
+                                        vf_goods.GoodsinfoID = vf_goodsinfo.GoodsInfo
+
+         and vf_goods.Status= 1
+
+        <if test="reqQueryGoods.goodsname != null ">
+            and vf_goods.GoodsName like '%${reqQueryGoods.goodsname}%'
+        </if>
+        <if test=" (reqQueryGoods.startprice != null and  reqQueryGoods.endprice != null) and (reqQueryGoods.startprice != reqQueryGoods.endprice)">
+            and vf_goods.GoodsPrice between ${reqQueryGoods.startprice} and ${reqQueryGoods.endprice}
+        </if>
+        <if test="reqQueryGoods.goodstype != null and reqQueryGoods.goodstype!='' ">
+            and vf_goods.GoodsType = '${reqQueryGoods.goodstype}'
+        </if>
+
+
+    </select>
+    <select id="getgoodsinfoBygoodsID" resultType="com.distribution.common.Pojo.Vo.vfGoodVo">
+        select * from vf_goods where vf_goods in (${ids})
+    </select>
+
+
+</mapper>
